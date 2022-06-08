@@ -4,6 +4,7 @@ import com.example.dits.DAO.UserRepository;
 import com.example.dits.entity.User;
 import com.example.dits.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,10 +15,12 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository repository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserRepository repository) {
+    public UserServiceImpl(UserRepository repository, PasswordEncoder passwordEncoder) {
         this.repository = repository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional
@@ -37,6 +40,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     public void save(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         repository.save(user);
     }
 
@@ -59,7 +63,9 @@ public class UserServiceImpl implements UserService {
         user.setLastName(userUpdate.getLastName());
         user.setRole(userUpdate.getRole());
         user.setLogin(userUpdate.getLogin());
-        user.setPassword(userUpdate.getPassword());
+        if(!user.getPassword().equals(userUpdate.getPassword())){
+            user.setPassword(passwordEncoder.encode(userUpdate.getPassword()));
+        }
         return user;
     }
 }
