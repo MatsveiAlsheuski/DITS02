@@ -1,6 +1,8 @@
 package com.example.dits.controllers;
 
+import com.example.dits.dto.TestStatisticByUser;
 import com.example.dits.entity.*;
+import com.example.dits.mapper.TestStatisticByUserMapper;
 import com.example.dits.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -19,6 +22,8 @@ public class TestPageController {
     private final QuestionService questionService;
     private final AnswerService answerService;
     private final StatisticService statisticService;
+    private final UserService userService;
+    private final TestStatisticByUserMapper testStatisticByUserMapper;
 
     @GetMapping("/goTest")
     public String goTest(@RequestParam int testId, @RequestParam(value = "theme") String topicName, ModelMap model, HttpSession session){
@@ -98,6 +103,21 @@ public class TestPageController {
         return "user/resultPage";
     }
 
+    @GetMapping("/personalStatistic")
+    public String personalStatistic(ModelMap model, HttpSession session ){
+        User user = (User) session.getAttribute("user");
+        model.addAttribute("title","Statistics");
+        model.addAttribute("allStatistic",userTestsStatisticDTO(user.getUserId()));
+        return "/user/personalStatistic";
+    }
+
+    @ResponseBody
+    @GetMapping("/getUserTestsStatistic")
+    public List<TestStatisticByUser> getUserTestsStatistic(HttpSession session ){
+        User user = (User) session.getAttribute("user");
+        return userTestsStatisticDTO(user.getUserId());
+    }
+
     private void checkIfResultPage(List<Question> questions, int questionNumber, boolean isCorrect, User user, List<Statistic> statisticList) {
         if (!isResultPage(questionNumber, statisticList)){
             statisticList.add(Statistic.builder()
@@ -111,5 +131,22 @@ public class TestPageController {
         return statisticList.size() >= questionNumber;
     }
 
+    private List<TestStatisticByUser> userTestsStatisticDTO(int id){
+        User user = userService.getUserByUserId(id);
+        List<Statistic> testList = statisticService.getStatisticsByUser(user);
+        return testList.stream().map(statistic -> testStatisticByUserMapper.convertToTestStatisticByUser(
+                statistic.getQuestion().getTest().getName(),
 
+                ((int) testList.stream().filter(statistic1 -> statistic1.getQuestion().getTest()
+                        .equals(statistic.getQuestion().getTest()))
+                        .map(statistic1 -> statistic1.getQuestion().getTest()).count()),
+
+                ((int)(100 * testList.stream().filter(statistic1 -> statistic1.getQuestion().getTest()
+                        .equals(statistic.getQuestion().getTest()))
+                        .filter(statistic1 -> statistic1.isCorrect()==true).count() /
+                        testList.stream().filter(statistic1 -> statistic1.getQuestion().getTest()
+                                .equals(statistic.getQuestion().getTest())).count()))
+
+        )).distinct().collect(Collectors.toList());
+    }
 }
