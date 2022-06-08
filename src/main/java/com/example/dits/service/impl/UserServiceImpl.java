@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -26,6 +25,10 @@ public class UserServiceImpl implements UserService {
         return repository.getUserByLogin(login);
     }
 
+    @Transactional
+    public User getUserByUserId(int id) {
+        return repository.getUserByUserId(id);
+    }
 
     @Transactional
     public List<User> findAll() {
@@ -44,6 +47,11 @@ public class UserServiceImpl implements UserService {
             User user = updateUserInfo(userUpdate,u.get());
             repository.save(user);
         }
+    }
+
+    @Transactional
+    public void delete(User user) {
+        repository.delete(user);
     }
 
     private User updateUserInfo(User userUpdate,User user){

@@ -53,13 +53,21 @@ public class AdminHomeController {
 
     @ResponseBody
     @PutMapping("/editUser")
-    public List<UserInfoDTO> editTest(@RequestParam int userId, @RequestParam String firstName,
+    public List<UserInfoDTO> editUser(@RequestParam int userId, @RequestParam String firstName,
                                       @RequestParam String surname, @RequestParam String role,
                                       @RequestParam String login, @RequestParam String password) {
         if (checkNullableParameters(firstName, surname, role, login, password)) {
             User user = fillOutUser(firstName, surname, role, login, password);
             userService.update(user,userId);
         }
+        return getUsersFromDB();
+    }
+
+    @ResponseBody
+    @DeleteMapping("/removeUser")
+    public List<UserInfoDTO> removeUser(@RequestParam int userId) {
+        User user = userService.getUserByUserId(userId);
+        userService.delete(user);
         return getUsersFromDB();
     }
 
