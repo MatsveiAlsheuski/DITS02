@@ -9,4 +9,5 @@ public interface UserService {
 
     List<User> findAll();
     void save(User user);
+    void update(User user,int id);
 }

@@ -51,6 +51,18 @@ public class AdminHomeController {
         return getUsersFromDB();
     }
 
+    @ResponseBody
+    @PutMapping("/editUser")
+    public List<UserInfoDTO> editTest(@RequestParam int userId, @RequestParam String firstName,
+                                      @RequestParam String surname, @RequestParam String role,
+                                      @RequestParam String login, @RequestParam String password) {
+        if (checkNullableParameters(firstName, surname, role, login, password)) {
+            User user = fillOutUser(firstName, surname, role, login, password);
+            userService.update(user,userId);
+        }
+        return getUsersFromDB();
+    }
+
     private static String getPrincipal() {
         String userName;
         Object principal = SecurityContextHolder.getContext()

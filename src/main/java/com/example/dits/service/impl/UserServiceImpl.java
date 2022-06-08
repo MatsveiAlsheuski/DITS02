@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -34,5 +35,23 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void save(User user) {
         repository.save(user);
+    }
+
+    @Transactional
+    public void update(User userUpdate,int id) {
+        Optional<User> u = repository.findById(id);
+        if(u.isPresent()){
+            User user = updateUserInfo(userUpdate,u.get());
+            repository.save(user);
+        }
+    }
+
+    private User updateUserInfo(User userUpdate,User user){
+        user.setFirstName(userUpdate.getFirstName());
+        user.setLastName(userUpdate.getLastName());
+        user.setRole(userUpdate.getRole());
+        user.setLogin(userUpdate.getLogin());
+        user.setPassword(userUpdate.getPassword());
+        return user;
     }
 }
