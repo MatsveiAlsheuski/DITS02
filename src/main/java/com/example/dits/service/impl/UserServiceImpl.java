@@ -30,4 +30,9 @@ public class UserServiceImpl implements UserService {
     public List<User> findAll() {
         return repository.findAll();
     }
+
+    @Transactional
+    public void save(User user) {
+        repository.save(user);
+    }
 }

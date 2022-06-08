@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/admin")
 public class AdminHomeController {
     private final UserService userService;
+    private final RoleService roleService;
     private final UserMapper userMapper;
 
     @GetMapping("/usersList")
@@ -35,6 +36,18 @@ public class AdminHomeController {
     @ResponseBody
     @GetMapping("/getUsers")
     private List<UserInfoDTO> getUsers() {
+        return getUsersFromDB();
+    }
+
+    @ResponseBody
+    @PostMapping("/addUser")
+    public List<UserInfoDTO> addUser(@RequestParam String firstName, @RequestParam String surname,
+                                     @RequestParam String role, @RequestParam String login,
+                                     @RequestParam String password) {
+        if (checkNullableParameters(firstName, surname, role, login, password)) {
+            User user = fillOutUser(firstName, surname, role, login, password);
+            userService.save(user);
+        }
         return getUsersFromDB();
     }
 
@@ -53,5 +66,24 @@ public class AdminHomeController {
     private List<UserInfoDTO> getUsersFromDB() {
         List<User> userList = userService.findAll();
         return userList.stream().map(userMapper::convertToUserDTO).collect(Collectors.toList());
+    }
+
+    private User fillOutUser(String firstName, String surname, String role, String login, String password) {
+        User user = new User();
+        user.setFirstName(firstName);
+        user.setLastName(surname);
+        user.setRole(roleService.getRoleByRoleName(role));
+        user.setLogin(login);
+        user.setPassword(password);
+        return user;
+    }
+
+    private boolean checkNullableParameters(String firstName, String surname, String role, String login, String password) {
+        if (firstName == null) return false;
+        if (surname == null) return false;
+        if (!role.equals("ROLE_USER") && !role.equals("ROLE_ADMIN")) return false;
+        if (login == null) return false;
+        if (password == null) return false;
+        return true;
     }
 }
