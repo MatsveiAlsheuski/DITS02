@@ -87,8 +87,15 @@ public class TestPageController {
 
         checkIfResultPage(questions, questionNumber, isCorrect, user, statisticList);
         statisticService.saveStatisticsToDB(statisticList);
-        model.addAttribute("title","Result");
-        return "redirect:/user/chooseTest";
+        int correctAnswers = (int) statisticList.stream().filter(answer -> answer.isCorrect()==true).count();
+        int sumAnswers = statisticList.size();
+        int wrongAnswers = sumAnswers - correctAnswers;
+        int resultPercent = 100 * correctAnswers / sumAnswers;
+        model.addAttribute("title", "Result");
+        model.addAttribute("correctAnswers", correctAnswers);
+        model.addAttribute("wrongAnswers", wrongAnswers);
+        model.addAttribute("resultPercent", resultPercent);
+        return "user/resultPage";
     }
 
     private void checkIfResultPage(List<Question> questions, int questionNumber, boolean isCorrect, User user, List<Statistic> statisticList) {
