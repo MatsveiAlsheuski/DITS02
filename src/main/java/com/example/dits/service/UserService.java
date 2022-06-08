@@ -4,4 +4,5 @@ import com.example.dits.entity.User;
 
 public interface UserService {
     User getUserByLogin(String login);
+    User getUserByUserId(int id);
 }
