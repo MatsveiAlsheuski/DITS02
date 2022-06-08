@@ -1,8 +1,11 @@
 package com.example.dits.controllers;
 
 import com.example.dits.dto.*;
+import com.example.dits.entity.Statistic;
+import com.example.dits.entity.Test;
 import com.example.dits.entity.Topic;
 import com.example.dits.entity.User;
+import com.example.dits.mapper.TestStatisticByUserMapper;
 import com.example.dits.mapper.UserMapper;
 import com.example.dits.service.TopicService;
 import com.example.dits.service.UserService;
@@ -26,6 +29,7 @@ public class AdminStatisticController {
     private final StatisticServiceImpl statisticService;
     private final TopicService topicService;
     private final UserService userService;
+    private final TestStatisticByUserMapper testStatisticByUserMapper;
 
     @GetMapping("/adminStatistic")
     public String testStatistic(ModelMap model){
@@ -50,6 +54,12 @@ public class AdminStatisticController {
     }
 
     @ResponseBody
+    @GetMapping("/getUserTestsStatistic")
+    public List<TestStatisticByUser> userTestsStatistic(@RequestParam int id){
+        return userTestsStatisticDTO(id);
+    }
+
+    @ResponseBody
     @GetMapping("/adminStatistic/removeStatistic/byId")
     public String removeStatisticByUserId(@RequestParam int id){
         statisticService.removeStatisticByUserId(id);
@@ -71,5 +81,24 @@ public class AdminStatisticController {
                 filter(user -> user.getRole().getRoleName().equals("ROLE_USER"))
                 .collect(Collectors.toList());
         return userList.stream().map(userMapper::convertToUserDTO).collect(Collectors.toList());
+    }
+
+    private List<TestStatisticByUser> userTestsStatisticDTO(int id){
+        User user = userService.getUserByUserId(id);
+        List<Statistic> testList = statisticService.getStatisticsByUser(user);
+        return testList.stream().map(statistic -> testStatisticByUserMapper.convertToTestStatisticByUser(
+                statistic.getQuestion().getTest().getName(),
+
+                ((int) testList.stream().filter(statistic1 -> statistic1.getQuestion().getTest()
+                        .equals(statistic.getQuestion().getTest()))
+                        .map(statistic1 -> statistic1.getQuestion().getTest()).count()),
+
+                ((int)(100 * testList.stream().filter(statistic1 -> statistic1.getQuestion().getTest()
+                        .equals(statistic.getQuestion().getTest()))
+                        .filter(statistic1 -> statistic1.isCorrect()==true).count() /
+                        testList.stream().filter(statistic1 -> statistic1.getQuestion().getTest()
+                                .equals(statistic.getQuestion().getTest())).count()))
+
+        )).distinct().collect(Collectors.toList());
     }
 }
