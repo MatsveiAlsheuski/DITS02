@@ -1,0 +1,51 @@
+<div th:replace="/fragments/header"></div>
+
+<main>
+    <div class="container" style="width: 919px;">
+        <div class="row">
+            <div class="d-flex align-items-baseline title">
+                <h1 style="font-size: 30px;" th:text="${session.topicName}">To start testing choose theme and test</h1>
+                <h3 style="font-size: 24px;" >/</h3>
+                <h3 style="font-size: 24px;" th:text="${session.testName}">Java 2 Fundamentals</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="container-sm resault-container" style="padding: 0rem 0rem;">
+                <div class="container" style="border-radius: 10px 10px 0px 0px;background: #F2F2F2; color: #008F02; height: 61.8px;">
+                    <h3 style="line-height: 56px; text-align: center;">Your result</h3>
+                </div>
+                <div  class="container-sm  py-4 resault-container-resault-procent" th:text="${resultPercent} + '%'">
+                    10 %
+                </div>
+                <div class="container-sm  py-4 resault-container-procent-answer"
+                     th:text="'(' + ${correctAnswers} + '/' + ${session.questionSize} + ')'">
+                    (0/0)
+                </div>
+                <div class="py-5 container-sm justify-content-between" style="width: 350px;">
+                    <hr>
+                    <div style="
+                    font-size: 18px;
+                    line-height: 25px;
+                    ">
+                        <a class="resault-dot"></a><a style="padding:0rem 1rem;">Correct answers</a> <a th:text="${correctAnswers}" style="float: right;" >number</a></div>
+                    <hr>
+                    <div style="
+                    font-size: 18px;
+                    line-height: 25px;
+                    justify-content: space-between">
+                        <a  class="resault-dot resault-dot2"></a><a style="padding:0rem 1rem">Wrong answers</a> <a th:text="${wrongAnswers}" style="float: right;">number</a></div>
+                </div>
+            </div>
+            <form style="margin-right: auto; margin-left: auto; width: 65%;" action="#" th:action="@{/user/personalStatistic}" method="get">
+                <button type="submit" th:name="action"  class="btn btn-lg w-100 mt-5"
+                        style="box-shadow: 3px 3px 10px 0px #00000026;">
+                    <h3 > Show all my statistics</h3>
+                </button>
+            </form>
+        </div>
+    </div>
+</main>
+<div th:replace="/fragments/footer"></div>
+<script th:src="@{/js/test-item.js}"></script>
+</body>
+</html>

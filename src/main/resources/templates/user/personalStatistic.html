@@ -1,0 +1,54 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="/fragments/header"></div>
+
+<main>
+    <div class="container" style="width: 919px;">
+        <th:block th:if="${allStatistic.isEmpty()}">
+        <div class="row">
+            <div class="d-flex align-items-baseline title">
+                <h1 style="font-size: 30px; color: #0B0B0B;font-weight: 700;" th:text="${session.user.firstName} + ' ' + ${session.user.lastName}">User name</h1>
+            </div>
+            <h3 style="padding:2rem 0rem;font-size: 24px;">You haven't finished eny test yet</h3>
+            <form style="width: 30%;" th:action="@{/user/chooseTest}" method="get">
+                <button type="submit" th:name="action" class="btn btn-lg w-100"
+                        style="box-shadow: 3px 3px 10px 0px #00000026;">
+                    <h3 >Start now</h3>
+                </button>
+            </form>
+        </div>
+        </th:block>
+        <th:block th:if="${!allStatistic.isEmpty()}">
+        <div class="row" style="padding: 63px 0px;">
+            <div class="container-sm resault-container" style="padding: 0rem 0rem;">
+                <div class="container" style="text-align: center; border-radius: 10px 10px 0px 0px;background: #F2F2F2;  color: #008F02; height: 61.8px;">
+                    <a style="line-height: 56px; font-size: 24px; text-align: center;">Your personal statistic</a>
+                </div>
+                    <div class="data-container container mt-4" id="dataContainer">
+                        <div class="row grid__head">
+                            <div class="col-md-1 col-sm-7 text-start mb-2 grid__head-item">#</div>
+                            <div class="col-md-8 col-sm-7 text-start mb-2 grid__head-item">Name of the test</div>
+                            <div class="col-md-3 col-sm-5 text-center d-flex justify-content-between">
+                                <div class="text-center grid__head-item">Pass</div>
+                                <div class="text-center grid__head-item">
+                                    <span>Average</span>
+                                    <button class="sort-button" id="sortTestsButton"><img
+                                            src="../../static/img/sort-icon.svg"
+                                            th:src="@{/img/sort-icon.svg}"></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row grid__item" id="resultTableBody">
+                            <!-- Fetch data layout -->
+                        </div>
+                    </div>
+            </div>
+        </div>
+        </th:block>
+    </div>
+</main>
+<div th:replace="/fragments/footer"></div>
+<div th:replace="/fragments/modals"></div>
+
+<script th:src="@{/js/userPersonalStatistic.js}"></script>
+</body>
+</html>
