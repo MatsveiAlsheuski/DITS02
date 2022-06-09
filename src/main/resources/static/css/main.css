@@ -1431,54 +1431,53 @@ main .form-select:focus {
         margin-top: 25px;
     }
 }
+.resault-dot {
+    height: 15px;
+    width: 15px;
+    background-color:  #008F02;
+    border-radius: 50%;
+    display: inline-block;
+}
+.resault-dot2 {
+    background-color:  #F68F0F;
+}
+.resault-container{
+    display: flex;
+    flex-direction: column;
+    box-shadow: 3px 3px 10px 0px #00000026;
+    left: 0%;
+    right: 0%;
+    top: 13.38%;
+    bottom: 14.68%;
+    background: #FFFFFF;
+    border-radius: 10px;
+}
+.resault-container-resault-procent{
+    display: flex;
+    flex-direction: column;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 100px;
+    line-height: 117px;
+    text-align: center;
+    color: #008F02
+}
+.resault-container-procent-answer {
+    width: 348px;
+    height: 81px;
+    left: 286px;
+    top: 338px;
 
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 60px;
+    line-height: 54px;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    text-align: center;
+    color: #000000;
+}
 .admin-users-list-title{
     font-size: 36px;
     margin-top: 30px;
