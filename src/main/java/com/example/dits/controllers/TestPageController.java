@@ -134,19 +134,6 @@ public class TestPageController {
     private List<TestStatisticByUser> userTestsStatisticDTO(int id){
         User user = userService.getUserByUserId(id);
         List<Statistic> testList = statisticService.getStatisticsByUser(user);
-        return testList.stream().map(statistic -> testStatisticByUserMapper.convertToTestStatisticByUser(
-                statistic.getQuestion().getTest().getName(),
-
-                ((int) testList.stream().filter(statistic1 -> statistic1.getQuestion().getTest()
-                        .equals(statistic.getQuestion().getTest()))
-                        .map(statistic1 -> statistic1.getQuestion().getTest()).count()),
-
-                ((int)(100 * testList.stream().filter(statistic1 -> statistic1.getQuestion().getTest()
-                        .equals(statistic.getQuestion().getTest()))
-                        .filter(statistic1 -> statistic1.isCorrect()==true).count() /
-                        testList.stream().filter(statistic1 -> statistic1.getQuestion().getTest()
-                                .equals(statistic.getQuestion().getTest())).count()))
-
-        )).distinct().collect(Collectors.toList());
+        return testStatisticByUserMapper.convertListToTestStatisticByUser(testList);
     }
 }
