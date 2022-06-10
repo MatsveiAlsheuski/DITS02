@@ -22,4 +22,9 @@ public class UserServiceImpl implements UserService {
     public User getUserByLogin(String login){
         return repository.getUserByLogin(login);
     }
+
+    @Transactional
+    public User getUserByUserId(int id) {
+        return repository.getUserByUserId(id);
+    }
 }
