@@ -1,8 +1,14 @@
 package com.example.dits.controllers;
 
 import com.example.dits.dto.*;
+import com.example.dits.entity.Statistic;
+import com.example.dits.entity.Test;
 import com.example.dits.entity.Topic;
+import com.example.dits.entity.User;
+import com.example.dits.mapper.TestStatisticByUserMapper;
+import com.example.dits.mapper.UserMapper;
 import com.example.dits.service.TopicService;
+import com.example.dits.service.UserService;
 import com.example.dits.service.impl.StatisticServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -19,8 +25,11 @@ import java.util.stream.Collectors;
 public class AdminStatisticController {
 
     private final ModelMapper modelMapper;
+    private final UserMapper userMapper;
     private final StatisticServiceImpl statisticService;
     private final TopicService topicService;
+    private final UserService userService;
+    private final TestStatisticByUserMapper testStatisticByUserMapper;
 
     @GetMapping("/adminStatistic")
     public String testStatistic(ModelMap model){
@@ -39,7 +48,15 @@ public class AdminStatisticController {
 
     @GetMapping("/getUserStatistic")
     public String userStatistic(ModelMap model){
+        List<UserInfoDTO> userListStat = getUsersFromDB();
+        model.addAttribute("userListStat", userListStat);
         return "admin/user-statistic";
+    }
+
+    @ResponseBody
+    @GetMapping("/getUserTestsStatistic")
+    public List<TestStatisticByUser> userTestsStatistic(@RequestParam int id){
+        return userTestsStatisticDTO(id);
     }
 
     @ResponseBody
@@ -59,4 +76,16 @@ public class AdminStatisticController {
         return modelMapper.map(topic, TopicDTO.class);
     }
 
+    private List<UserInfoDTO> getUsersFromDB() {
+        List<User> userList = userService.findAll().stream().
+                filter(user -> user.getRole().getRoleName().equals("ROLE_USER"))
+                .collect(Collectors.toList());
+        return userList.stream().map(userMapper::convertToUserDTO).collect(Collectors.toList());
+    }
+
+    private List<TestStatisticByUser> userTestsStatisticDTO(int id){
+        User user = userService.getUserByUserId(id);
+        List<Statistic> testList = statisticService.getStatisticsByUser(user);
+        return testStatisticByUserMapper.convertListToTestStatisticByUser(testList);
+    }
 }
