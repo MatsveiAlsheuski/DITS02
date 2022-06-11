@@ -1,0 +1,29 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="/fragments/header"></div>
+
+<main>
+        <div class="container">
+            <div class="row">
+                <div class="d-flex">
+                    <h1 class="text-start admin-users-list-title">Users list</h1>
+                    <button type="button" style="margin-top: 30px;" class="detail__create detail-card__add-button" data-bs-target="#newUserModal" id="createNewUserButton" data-bs-toggle="modal">
+                        <img class="col-auto icon-btn" src="/img/add-icon.svg" alt="add new user">
+                        <span class="col-auto detail-card__text">Add new user</span>
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class=" active w-100" >
+                    <div class="detail__list" id="detailList">
+                        <!-- Fetch data layout -->
+                    </div>
+                </div>
+            </div>
+        </div>
+</main>
+<div th:replace="/fragments/footer"></div>
+<div th:replace="/fragments/modals"></div>
+
+<script th:src="@{/js/usersList.js}"></script>
+</body>
+</html>
