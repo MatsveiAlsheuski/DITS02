@@ -27,52 +27,56 @@ public class SecurityController {
     private final TopicService topicService;
 
     @GetMapping("/user/chooseTest")
-    public String userPage(HttpSession session,ModelMap model) {
+    public String userPage(HttpSession session, ModelMap model) {
         User user = userService.getUserByLogin(getPrincipal());
         List<Topic> topicList = topicService.findAll();
         List<Topic> topicsWithQuestions = new ArrayList<>();
-        for (Topic i:topicList){
-            if (i.getTestList().size() != 0){
+        for (Topic i : topicList) {
+            if (i.getTestList().size() != 0) {
                 topicsWithQuestions.add(i);
             }
         }
-          session.setAttribute("user", user);
-        model.addAttribute("title","Testing");
-        model.addAttribute("topicWithQuestions",topicsWithQuestions);
+        if (session.getAttribute("countLogin") == null) {
+            System.out.println(session.getAttribute("countLogIn") == null);
+            session.setAttribute("countLogin", 0);
+            System.out.println(session.getAttribute("countLogIn") == null);
+        } else session.setAttribute("countLogin", 1);
+        session.setAttribute("user", user);
+        model.addAttribute("title", "Testing");
+        model.addAttribute("topicWithQuestions", topicsWithQuestions);
         return "user/chooseTest";
     }
 
     @GetMapping("/login")
-    public String loginPage(ModelMap model){
-        model.addAttribute("title","Login");
-        return "login";}
+    public String loginPage(ModelMap model) {
+        model.addAttribute("title", "Login");
+        return "login";
+    }
 
     @GetMapping("/accessDenied")
-    public String accessDeniedGet(){
+    public String accessDeniedGet() {
         return "accessDenied";
     }
 
     @GetMapping("/logout")
-    public String logoutPage(HttpServletRequest request, HttpServletResponse response){
+    public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-        if(auth != null)
-            new SecurityContextLogoutHandler().logout(request,response,auth);
+        if (auth != null)
+            new SecurityContextLogoutHandler().logout(request, response, auth);
 
         return "redirect:/login?logout";
     }
 
-    private static String getPrincipal(){
+    private static String getPrincipal() {
         String userName;
         Object principal = SecurityContextHolder.getContext()
                 .getAuthentication().getPrincipal();
 
-        if(principal instanceof UserDetails){
+        if (principal instanceof UserDetails) {
             userName = ((UserDetails) principal).getUsername();
-        }
-        else
+        } else
             userName = principal.toString();
         return userName;
     }
-
 }

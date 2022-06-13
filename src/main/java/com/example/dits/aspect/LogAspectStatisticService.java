@@ -1,8 +1,5 @@
 package com.example.dits.aspect;
 
-import com.example.dits.entity.Statistic;
-import com.example.dits.entity.Test;
-import com.example.dits.entity.User;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
