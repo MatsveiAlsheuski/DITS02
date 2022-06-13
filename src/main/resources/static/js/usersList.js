@@ -61,6 +61,7 @@ async function addNewUser(firstName, surname, role, login, password) {
         }
     });
     const result = await response.json();
+    console.log(result[0].userId);
     dataByUsers = result;
     updateUserList(result);
 }
@@ -78,6 +79,7 @@ async function editUser(userId, firstName, surname, role, login, password) {
         }
     });
     const result = await response.json();
+    console.log(result[0].userId);
     dataByUsers = result;
     updateUserList(result);
 }
