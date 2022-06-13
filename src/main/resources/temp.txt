@@ -1,0 +1,17 @@
+2022-06-12 13:53:02.884 --- save       User  : first name = User            last name = User            login = adm            
+2022-06-12 13:53:07.621 --- update     User  : first name = User            last name = User            login = ad             
+2022-06-12 13:53:14.130 --- delete     User  : first name = User            last name = User            login = ad             
+2022-06-12 13:53:20.178 --- save       Topic : topic name = 123                           
+2022-06-12 13:53:27.185 --- save       Test  :  test name = 123                            topic name = Java Fundamentals             
+2022-06-12 13:53:34.407 --- get    Statistic : Do  method = getStatisticsByUser
+2022-06-13 10:52:10.830 --- goTest      User :  userLogin = user       Test : topic name = Java Fundamentals test name = First test      question = 1/3
+2022-06-13 10:52:13.452 --- nextTestPageUser :  userLogin = user       Test : topic name = Java Fundamentals test name = First test      question = 2/3
+2022-06-13 10:52:15.692 --- nextTestPageUser :  userLogin = user       Test : topic name = Java Fundamentals test name = First test      question = 3/3
+2022-06-13 10:52:17.205 --- Test ended  User :  userLogin = user       Test : topic name = Java Fundamentals test name = First test
+2022-06-13 10:54:08.227 --- get    Statistic : Do  method = getStatisticsByUser
+2022-06-13 10:54:08.615 --- get    Statistic : Do  method = getStatisticsByUser
+2022-06-13 14:37:17.027 --- userPage    User :  userLogin = user            go in
+2022-06-13 14:37:21.598 --- get    Statistic : Do  method = getStatisticsByUser
+2022-06-13 14:37:22.068 --- get    Statistic : Do  method = getStatisticsByUser
+2022-06-13 14:37:25.373 --- logoutPage  User :  userLogin = user            go out
+2022-06-13 14:37:35.612 --- userPage    User :  userLogin = user            go in
