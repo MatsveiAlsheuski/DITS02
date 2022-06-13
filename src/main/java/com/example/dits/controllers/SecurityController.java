@@ -37,9 +37,7 @@ public class SecurityController {
             }
         }
         if (session.getAttribute("countLogin") == null) {
-            System.out.println(session.getAttribute("countLogIn") == null);
             session.setAttribute("countLogin", 0);
-            System.out.println(session.getAttribute("countLogIn") == null);
         } else session.setAttribute("countLogin", 1);
         session.setAttribute("user", user);
         model.addAttribute("title", "Testing");
