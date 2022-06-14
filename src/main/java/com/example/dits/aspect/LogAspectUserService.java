@@ -37,7 +37,7 @@ public class LogAspectUserService {
     private String createMassage(JoinPoint joinPoint) {
         Object[] lArgs = joinPoint.getArgs();
         User user = (User) lArgs[0];
-        return String.format("%-10s User  : first name = %-15s last name = %-15s login = %-15s",
+        return String.format("%-11s User : first name = %-15s last name = %-15s login = %-15s",
                 joinPoint.getSignature().getName(), user.getFirstName(), user.getLastName(), user.getLogin());
     }
 
