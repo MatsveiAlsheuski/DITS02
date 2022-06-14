@@ -51,7 +51,7 @@ public class LogAspectAuthentication {
         Object[] lArgs = joinPoint.getArgs();
         StandardSessionFacade session = (StandardSessionFacade) lArgs[0];
         User user = (User) session.getAttribute("user");
-        return String.format("%-10s  User :  userLogin = %-15s go in",
+        return String.format("%-12sUser :  userLogin = %-15s go in",
                 joinPoint.getSignature().getName(), user.getLogin());
     }
 

@@ -25,7 +25,7 @@ public class AdminHomeController {
     private final UserMapper userMapper;
 
     @GetMapping("/usersList")
-    public String getUsersList(HttpSession session, ModelMap model) {
+    public String usersList(HttpSession session, ModelMap model) {
         session.setAttribute("user", userService.getUserByLogin(getPrincipal()));
         model.addAttribute("title", "Users list");
         return "admin/usersList";

@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -27,7 +26,6 @@ public class TestPageController {
 
     @GetMapping("/goTest")
     public String goTest(@RequestParam int testId, @RequestParam(value = "theme") String topicName, ModelMap model, HttpSession session){
-
         Test test = testService.getTestByTestId(testId);
         List<Question> questionList = questionService.getQuestionsByTest(test);
         int quantityOfQuestions = questionList.size();
