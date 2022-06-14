@@ -6,6 +6,7 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +20,7 @@ import java.util.Date;
 
 @Aspect
 @Component
+@Profile("!test")
 public class LogAspectAuthentication {
 
     @After("execution(* com.example.dits.controllers.SecurityController.loginHandle(..))")

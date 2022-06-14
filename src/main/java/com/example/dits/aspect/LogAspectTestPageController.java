@@ -5,6 +5,7 @@ import org.apache.catalina.session.StandardSessionFacade;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -18,6 +19,7 @@ import java.util.List;
 
 @Aspect
 @Component
+@Profile("!test")
 public class LogAspectTestPageController {
 
     @After("execution(String com.example.dits.controllers.TestPageController.goTest(..))")

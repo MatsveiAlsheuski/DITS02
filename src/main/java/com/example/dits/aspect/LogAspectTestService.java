@@ -4,6 +4,7 @@ import com.example.dits.entity.Test;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -16,6 +17,7 @@ import java.util.Date;
 
 @Aspect
 @Component
+@Profile("!test")
 public class LogAspectTestService {
     @Before("execution(void com.example.dits.service.TestService.save(..))")
     public void beforeTestServiceMethod(JoinPoint joinPoint) {
