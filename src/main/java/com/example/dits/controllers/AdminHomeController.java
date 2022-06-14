@@ -6,8 +6,6 @@ import com.example.dits.mapper.UserMapper;
 import com.example.dits.service.RoleService;
 import com.example.dits.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +24,6 @@ public class AdminHomeController {
 
     @GetMapping("/usersList")
     public String usersList(HttpSession session, ModelMap model) {
-        session.setAttribute("user", userService.getUserByLogin(getPrincipal()));
         model.addAttribute("title", "Users list");
         return "admin/usersList";
     }
@@ -67,18 +64,6 @@ public class AdminHomeController {
         User user = userService.getUserByUserId(userId);
         userService.delete(user);
         return getUsersFromDB();
-    }
-
-    private static String getPrincipal() {
-        String userName;
-        Object principal = SecurityContextHolder.getContext()
-                .getAuthentication().getPrincipal();
-
-        if (principal instanceof UserDetails) {
-            userName = ((UserDetails) principal).getUsername();
-        } else
-            userName = principal.toString();
-        return userName;
     }
 
     private List<UserInfoDTO> getUsersFromDB() {

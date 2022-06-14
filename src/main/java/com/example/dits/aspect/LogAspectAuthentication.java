@@ -21,14 +21,10 @@ import java.util.Date;
 @Component
 public class LogAspectAuthentication {
 
-    @After("execution(* com.example.dits.controllers.SecurityController.userPage(..))")
+    @After("execution(* com.example.dits.controllers.SecurityController.loginHandle(..))")
     public void afterSecurityControllerMethod(JoinPoint joinPoint) {
-        Object[] lArgs = joinPoint.getArgs();
-        StandardSessionFacade session = (StandardSessionFacade) lArgs[0];
-        int count = (int) session.getAttribute("countLogin");
-        if (count==0){
-            String massage = createDate() + createMassageLogin(joinPoint);
-            writerToFile(massage);}
+        String massage = createDate() + createMassageLogin(joinPoint);
+        writerToFile(massage);
     }
 
     @Before("execution(* com.example.dits.controllers.SecurityController.logoutPage(..))")

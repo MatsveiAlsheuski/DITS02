@@ -17,12 +17,27 @@ import java.util.*;
 @RequestMapping("/user")
 public class TestPageController {
 
+    private final TopicService topicService;
     private final TestService testService;
     private final QuestionService questionService;
     private final AnswerService answerService;
     private final StatisticService statisticService;
     private final UserService userService;
     private final TestStatisticByUserMapper testStatisticByUserMapper;
+
+    @GetMapping("/chooseTest")
+    public String userPage(HttpSession session, ModelMap model) {
+        List<Topic> topicList = topicService.findAll();
+        List<Topic> topicsWithQuestions = new ArrayList<>();
+        for (Topic i : topicList) {
+            if (i.getTestList().size() != 0) {
+                topicsWithQuestions.add(i);
+            }
+        }
+        model.addAttribute("title", "Testing");
+        model.addAttribute("topicWithQuestions", topicsWithQuestions);
+        return "user/chooseTest";
+    }
 
     @GetMapping("/goTest")
     public String goTest(@RequestParam int testId, @RequestParam(value = "theme") String topicName, ModelMap model, HttpSession session){
