@@ -5,7 +5,7 @@ import com.example.dits.entity.Question;
 import com.example.dits.service.QuestionService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 
@@ -14,7 +14,7 @@ import java.util.Optional;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
 
-@DataJpaTest
+@SpringBootTest
 @ActiveProfiles("test")
 class QuestionServiceImplTest {
 
