@@ -1,16 +1,13 @@
 package com.example.dits.service.impl;
 
-import com.example.dits.DAO.StatisticRepository;
 import com.example.dits.DAO.TestRepository;
-import com.example.dits.entity.Statistic;
 import com.example.dits.entity.Topic;
-import com.example.dits.service.StatisticService;
 import com.example.dits.service.TestService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Optional;
 
@@ -18,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
 @SpringBootTest
+@ActiveProfiles("test")
 class TestServiceImplTest {
 
     @Autowired
