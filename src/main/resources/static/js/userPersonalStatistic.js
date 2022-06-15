@@ -3,6 +3,7 @@ const resultTableBody = document.getElementById('resultTableBody');
 const dataContainer = document.getElementById('dataContainer');
 const sortTestsButton = document.getElementById('sortTestsButton');
 let isReverseTest = false;
+const baseUrl = window.location.origin;
 
 function updateResult(data) {
     if (!data) {
@@ -39,7 +40,7 @@ window.onload = getUsersData();
 // TODO: add separate function to send GET requests
 
 async function getUsersData() {
-    const url = new URL("http://localhost:8080/user/getUserTestsStatistic");
+    const url = new URL(baseUrl + "/user/getUserTestsStatistic");
     const params = {};
     url.search = new URLSearchParams(params).toString();
     const response = await fetch(url);

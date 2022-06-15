@@ -34,9 +34,10 @@ const token = document.head.querySelector('meta[name="_csrf"]').getAttribute('co
 const detailList = document.getElementById('detailList');
 // const token = "${_csrf.token}";
 let dataByUsers = null;
+const baseUrl = window.location.origin;
 
 async function getUsersData() {
-    const url = new URL("http://localhost:8080/admin/getUsers");
+    const url = new URL(baseUrl + "/admin/getUsers");
     const params = {};
     url.search = new URLSearchParams(params).toString();
     const response = await fetch(url);
@@ -50,7 +51,7 @@ const newUserFormCloseButton = document.getElementById('newUserFormCloseButton')
 
 async function addNewUser(firstName, surname, role, login, password) {
     newUserFormCloseButton.click();
-    const url = new URL("http://localhost:8080/admin/addUser");
+    const url = new URL(baseUrl + "/admin/addUser");
     let params = {firstName, surname, role, login, password};
     url.search = new URLSearchParams(params).toString();
     const response = await fetch(url, {
@@ -68,7 +69,7 @@ async function addNewUser(firstName, surname, role, login, password) {
 
 async function editUser(userId, firstName, surname, role, login, password) {
     newUserFormCloseButton.click();
-    const url = new URL("http://localhost:8080/admin/editUser");
+    const url = new URL(baseUrl + "/admin/editUser");
     let params = {userId, firstName, surname, role, login, password};
     url.search = new URLSearchParams(params).toString();
     const response = await fetch(url, {
@@ -87,7 +88,7 @@ async function editUser(userId, firstName, surname, role, login, password) {
 async function deleteUser(target) {
     const userItem= target.closest('.user__item');
     const id = userItem.dataset.userId;
-    const url = new URL("http://localhost:8080/admin/removeUser");
+    const url = new URL(baseUrl + "/admin/removeUser");
     let params = {userId: id};
     url.search = new URLSearchParams(params).toString();
     const response = await fetch(url, {
