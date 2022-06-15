@@ -6,6 +6,7 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,16 +20,13 @@ import java.util.Date;
 
 @Aspect
 @Component
+@Profile("!test")
 public class LogAspectAuthentication {
 
-    @After("execution(* com.example.dits.controllers.SecurityController.userPage(..))")
+    @After("execution(* com.example.dits.controllers.SecurityController.loginHandle(..))")
     public void afterSecurityControllerMethod(JoinPoint joinPoint) {
-        Object[] lArgs = joinPoint.getArgs();
-        StandardSessionFacade session = (StandardSessionFacade) lArgs[0];
-        int count = (int) session.getAttribute("countLogin");
-        if (count==0){
-            String massage = createDate() + createMassageLogin(joinPoint);
-            writerToFile(massage);}
+        String massage = createDate() + createMassageLogin(joinPoint);
+        writerToFile(massage);
     }
 
     @Before("execution(* com.example.dits.controllers.SecurityController.logoutPage(..))")
@@ -51,7 +49,7 @@ public class LogAspectAuthentication {
         Object[] lArgs = joinPoint.getArgs();
         StandardSessionFacade session = (StandardSessionFacade) lArgs[0];
         User user = (User) session.getAttribute("user");
-        return String.format("%-10s  User :  userLogin = %-15s go in",
+        return String.format("%-12sUser :  userLogin = %-15s go in",
                 joinPoint.getSignature().getName(), user.getLogin());
     }
 

@@ -1,8 +1,6 @@
 package com.example.dits.controllers;
 
-import com.example.dits.entity.Topic;
 import com.example.dits.entity.User;
-import com.example.dits.service.TopicService;
 import com.example.dits.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -16,33 +14,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
 public class SecurityController {
 
     private final UserService userService;
-    private final TopicService topicService;
 
-    @GetMapping("/user/chooseTest")
-    public String userPage(HttpSession session, ModelMap model) {
+    @GetMapping("/login-handle")
+    public String loginHandle(HttpSession session) {
         User user = userService.getUserByLogin(getPrincipal());
-        List<Topic> topicList = topicService.findAll();
-        List<Topic> topicsWithQuestions = new ArrayList<>();
-        for (Topic i : topicList) {
-            if (i.getTestList().size() != 0) {
-                topicsWithQuestions.add(i);
-            }
-        }
-        if (session.getAttribute("countLogin") == null) {
-            session.setAttribute("countLogin", 0);
-        } else session.setAttribute("countLogin", 1);
+        String authority = getAuthority();
         session.setAttribute("user", user);
-        model.addAttribute("title", "Testing");
-        model.addAttribute("topicWithQuestions", topicsWithQuestions);
-        return "user/chooseTest";
+        return authority.contains("USER") ? "redirect:/user/chooseTest" : "redirect:/admin/usersList";
     }
 
     @GetMapping("/login")
@@ -76,5 +60,13 @@ public class SecurityController {
         } else
             userName = principal.toString();
         return userName;
+    }
+
+    private static String getAuthority(){
+        Object principal = SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal();
+        return principal instanceof UserDetails ?
+                String.valueOf(((UserDetails) principal).getAuthorities().stream().findFirst().orElse(null))
+                : principal.toString();
     }
 }

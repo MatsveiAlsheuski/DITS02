@@ -2,7 +2,6 @@ package com.example.dits.controllers;
 
 import com.example.dits.dto.*;
 import com.example.dits.entity.Statistic;
-import com.example.dits.entity.Test;
 import com.example.dits.entity.Topic;
 import com.example.dits.entity.User;
 import com.example.dits.mapper.TestStatisticByUserMapper;

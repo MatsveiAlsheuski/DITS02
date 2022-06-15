@@ -4,6 +4,7 @@ import com.example.dits.entity.User;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -16,6 +17,7 @@ import java.util.Date;
 
 @Aspect
 @Component
+@Profile("!test")
 public class LogAspectUserService {
 
     @Before("execution(void com.example.dits.service.UserService.*(..))")
@@ -37,7 +39,7 @@ public class LogAspectUserService {
     private String createMassage(JoinPoint joinPoint) {
         Object[] lArgs = joinPoint.getArgs();
         User user = (User) lArgs[0];
-        return String.format("%-10s User  : first name = %-15s last name = %-15s login = %-15s",
+        return String.format("%-11s User : first name = %-15s last name = %-15s login = %-15s",
                 joinPoint.getSignature().getName(), user.getFirstName(), user.getLastName(), user.getLogin());
     }
 

@@ -6,8 +6,6 @@ import com.example.dits.mapper.UserMapper;
 import com.example.dits.service.RoleService;
 import com.example.dits.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -25,11 +23,8 @@ public class AdminHomeController {
     private final UserMapper userMapper;
 
     @GetMapping("/usersList")
-    public String getUsersList(ModelMap model, HttpSession session) {
-        List<UserInfoDTO> userDTOList = getUsersFromDB();
-        session.setAttribute("user", userService.getUserByLogin(getPrincipal()));
+    public String usersList(HttpSession session, ModelMap model) {
         model.addAttribute("title", "Users list");
-        model.addAttribute("userDTOList", userDTOList);
         return "admin/usersList";
     }
 
@@ -69,18 +64,6 @@ public class AdminHomeController {
         User user = userService.getUserByUserId(userId);
         userService.delete(user);
         return getUsersFromDB();
-    }
-
-    private static String getPrincipal() {
-        String userName;
-        Object principal = SecurityContextHolder.getContext()
-                .getAuthentication().getPrincipal();
-
-        if (principal instanceof UserDetails) {
-            userName = ((UserDetails) principal).getUsername();
-        } else
-            userName = principal.toString();
-        return userName;
     }
 
     private List<UserInfoDTO> getUsersFromDB() {

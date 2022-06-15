@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/user")
 public class TestPageController {
 
+    private final TopicService topicService;
     private final TestService testService;
     private final QuestionService questionService;
     private final AnswerService answerService;
@@ -25,9 +25,22 @@ public class TestPageController {
     private final UserService userService;
     private final TestStatisticByUserMapper testStatisticByUserMapper;
 
+    @GetMapping("/chooseTest")
+    public String userPage(HttpSession session, ModelMap model) {
+        List<Topic> topicList = topicService.findAll();
+        List<Topic> topicsWithQuestions = new ArrayList<>();
+        for (Topic i : topicList) {
+            if (i.getTestList().size() != 0) {
+                topicsWithQuestions.add(i);
+            }
+        }
+        model.addAttribute("title", "Testing");
+        model.addAttribute("topicWithQuestions", topicsWithQuestions);
+        return "user/chooseTest";
+    }
+
     @GetMapping("/goTest")
     public String goTest(@RequestParam int testId, @RequestParam(value = "theme") String topicName, ModelMap model, HttpSession session){
-
         Test test = testService.getTestByTestId(testId);
         List<Question> questionList = questionService.getQuestionsByTest(test);
         int quantityOfQuestions = questionList.size();

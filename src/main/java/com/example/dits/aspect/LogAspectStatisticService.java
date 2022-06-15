@@ -3,6 +3,7 @@ package com.example.dits.aspect;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -15,6 +16,7 @@ import java.util.Date;
 
 @Aspect
 @Component
+@Profile("!test")
 public class LogAspectStatisticService {
     @Before("execution(* com.example.dits.service.StatisticService.getStatisticsByUser(..))")
     public void beforeStatisticServiceMethod(JoinPoint joinPoint) {
