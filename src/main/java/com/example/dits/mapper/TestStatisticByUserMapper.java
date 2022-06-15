@@ -16,7 +16,7 @@ public class TestStatisticByUserMapper {
     public List<TestStatisticByUser> convertListToTestStatisticByUser(List<Statistic> testList){
         return testList.stream().map(statistic -> convertToTestStatisticByUser(
                 getTest(statistic).getName(),
-                countAllAttempt(testList, getTest(statistic)),
+                countAttempt(testList, getTest(statistic)),
                 percentCount(testList, getTest(statistic))
         )).distinct().collect(Collectors.toList());
     }
@@ -35,6 +35,10 @@ public class TestStatisticByUserMapper {
 
     private int countAllAttempt(List<Statistic> testList, Test test){
         return (int) testList.stream().filter(statistic -> getTest(statistic).equals(test)).count();
+    }
+    private int countAttempt(List<Statistic> testList, Test test){
+        return (int) testList.stream().filter(statistic -> getTest(statistic).equals(test)).count()
+                /test.getQuestions().size();
     }
 
     private int percentCount(List<Statistic> testList, Test test){
