@@ -1,9 +1,8 @@
-
+const baseUrl = window.location.origin;
 const resultTableBody = document.getElementById('resultTableBody');
 const dataContainer = document.getElementById('dataContainer');
 const sortTestsButton = document.getElementById('sortTestsButton');
 let isReverseTest = false;
-const baseUrl = window.location.origin;
 
 function updateResult(data) {
     if (!data) {

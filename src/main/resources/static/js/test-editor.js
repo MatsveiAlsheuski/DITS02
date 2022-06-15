@@ -18,7 +18,7 @@
  * 
  * 
  */
-
+const baseUrl = window.location.origin;
 function getQuestionHtml({name, description, testId, questions}) {
     const question = document.createElement('div');
     question.className = 'test';
@@ -65,7 +65,6 @@ let prevEditedTheme = null;
 let prevEditedThemeValue = null;
 let currentThemeId = null;
 let dataByTopicId = null;
-const baseUrl = window.location.origin;
 
 function changeActiveAddThemeFormStatus() {
     addThemeForm.classList.toggle('active');

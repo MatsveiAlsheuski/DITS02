@@ -32,16 +32,13 @@
  * and after that all topics with appropriate test and description
  * will be showed on the page
  */
-
+const baseUrl = window.location.origin;
 const testThemeSelect = document.getElementById("testThemeSelect");
 const testDescription = document.getElementById("testDescription");
 const startTestButton = document.getElementById("startTestButton");
 const testSelect = document.getElementById("testSelect");
 
-const baseUrl = window.location.origin;
-
 let testsData = null;
-
 
 document.addEventListener("DOMContentLoaded", () => {
     const selectedOption = testThemeSelect.querySelector("option:checked");

@@ -6,7 +6,7 @@
  * -- editUser
  * -- deleteUser
  */
-
+const baseUrl = window.location.origin;
 window.onload = getUsersData();
 
 function updateUserList(data) {
@@ -34,7 +34,6 @@ const token = document.head.querySelector('meta[name="_csrf"]').getAttribute('co
 const detailList = document.getElementById('detailList');
 // const token = "${_csrf.token}";
 let dataByUsers = null;
-const baseUrl = window.location.origin;
 
 async function getUsersData() {
     const url = new URL(baseUrl + "/admin/getUsers");
