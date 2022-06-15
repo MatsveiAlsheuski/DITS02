@@ -121,7 +121,7 @@ public class TestPageController {
         User user = (User) session.getAttribute("user");
         model.addAttribute("title","Statistics");
         model.addAttribute("allStatistic",userTestsStatisticDTO(user.getUserId()));
-        return "/user/personalStatistic";
+        return "user/personalStatistic";
     }
 
     @ResponseBody
